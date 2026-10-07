@@ -22,6 +22,44 @@ async function main() {
     page.on('pageerror', (error) => runtimeErrors.push(error.message));
     await expect(page.locator('.react-flow__node')).toHaveCount(13);
     assert.match(page.url(), /^file:\/\//);
+    const companyName = '上海熙进电子科技有限公司';
+    assert.deepEqual(
+      await application.evaluate(({ app, BrowserWindow }) => ({
+        name: app.getName(),
+        title: BrowserWindow.getAllWindows()[0].getTitle(),
+      })),
+      { name: '知图 ZhiTu', title: `知图 · ${companyName}` },
+    );
+    // Branding must not change the application identity used by existing profiles.
+    const aboutDialog = await application.evaluate(({ dialog, Menu, nativeImage }) => {
+      const helpMenu = Menu.getApplicationMenu().items.find((item) => item.label === '帮助');
+      const aboutMenuItem = helpMenu.submenu.items.find((item) => item.label === '关于知图');
+      const originalShowMessageBox = dialog.showMessageBox;
+      let capturedOptions;
+      dialog.showMessageBox = async (_window, options) => {
+        const icon =
+          typeof options.icon === 'string'
+            ? nativeImage.createFromPath(options.icon)
+            : options.icon;
+        capturedOptions = {
+          title: options.title,
+          message: options.message,
+          detail: options.detail,
+          iconEmpty: !icon || icon.isEmpty(),
+        };
+        return { response: 0 };
+      };
+      try {
+        aboutMenuItem.click();
+        return capturedOptions;
+      } finally {
+        dialog.showMessageBox = originalShowMessageBox;
+      }
+    });
+    assert.equal(aboutDialog.title, '关于知图');
+    assert.match(aboutDialog.message, /^知图 ZhiTu · \d+\.\d+\.\d+/);
+    assert.ok(aboutDialog.detail.includes(`${companyName} 开发`));
+    assert.equal(aboutDialog.iconEmpty, false);
     assert.deepEqual(
       await page.evaluate(() => ({
         methods: Object.keys(window.desktop).sort(),
@@ -50,6 +88,15 @@ async function main() {
     await page.reload();
     await expect(page.locator('.react-flow__node')).toHaveCount(13);
     await expect(page.locator('.react-flow__edge')).toHaveCount(12);
+    for (const selector of ['.brand', '.canvas-brandmark', '.company-credit']) {
+      const brandedArea = page.locator(selector);
+      await expect(brandedArea).toBeVisible();
+      await expect(brandedArea).toContainText(companyName);
+      const logo = brandedArea.getByRole('img', { name: 'Seekin 公司 Logo' });
+      await expect(logo).toBeVisible();
+      await expect(logo).toHaveJSProperty('complete', true);
+      assert.ok(await logo.evaluate((image) => image.naturalWidth > 0 && image.naturalHeight > 0));
+    }
 
     async function saveDialog(filePath) {
       await application.evaluate(({ dialog }, destination) => {
@@ -218,7 +265,7 @@ async function main() {
     );
     assert.deepEqual(runtimeErrors, []);
     console.log(
-      'Electron smoke passed: local offline startup, 13 nodes, isolated preload, native document round trip, atomic overwrite and disk failure recovery, SVG/PNG bytes, dialog cancellation, invalid IPC payloads.',
+      'Electron smoke passed: stable application identity, company window title and native About logo, offline company branding, 13 nodes, isolated preload, native document round trip, atomic overwrite and disk failure recovery, SVG/PNG bytes, dialog cancellation, invalid IPC payloads.',
     );
   } finally {
     await application.close();

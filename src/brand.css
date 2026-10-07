@@ -1,0 +1,367 @@
+:root {
+  --company-blue: #009ed6;
+  --company-blue-dark: #007cac;
+  --company-ink: #132f49;
+  --company-soft: #eaf7fc;
+}
+
+.brand {
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 12px;
+  padding: 0 8px 23px;
+}
+
+.product-brand {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.company-logo {
+  width: 47px;
+  height: 47px;
+  object-fit: contain;
+  border-radius: 8px;
+}
+
+.brand strong {
+  color: var(--company-ink);
+}
+
+.brand strong span {
+  color: var(--company-blue);
+  font-size: 10px;
+  letter-spacing: 1.2px;
+  margin-left: 7px;
+}
+
+.brand p {
+  color: #879ead;
+  font-size: 9px;
+  letter-spacing: 1px;
+  margin-top: 6px;
+}
+
+.brand-company-name {
+  font-size: 11px;
+  color: #486579;
+  letter-spacing: 0.4px;
+  white-space: nowrap;
+}
+
+.primary-button {
+  background: var(--company-blue);
+  border-color: var(--company-blue);
+  box-shadow: 0 2px 4px #009ed614;
+}
+.primary-button:hover {
+  background: var(--company-blue-dark);
+}
+.primary-button:active {
+  background: #006e99;
+}
+button:focus-visible {
+  outline-color: #8ed0e8;
+}
+input:focus,
+textarea:focus {
+  border-color: #77c9e5 !important;
+  box-shadow: 0 0 0 3px #009ed60f;
+}
+.avatar,
+.mode-icon,
+.icon-button.active,
+.floating-tools .icon-button.active,
+.selected .board-type-icon,
+.tip-icon,
+.modal-icon {
+  color: var(--company-blue-dark);
+  background: var(--company-soft);
+}
+.board-item.selected {
+  background: #eaf5fb;
+  border-color: #d7edf7;
+  color: #1687b1;
+}
+.board-item.selected small {
+  color: #83a6b9;
+}
+.active-dot {
+  background: var(--company-blue);
+}
+.board-item:hover,
+.sidebar-link:hover,
+.icon-button:hover,
+.dropdown button:hover,
+.canvas-utilities > button:hover {
+  background: #f0f8fb;
+  color: var(--company-blue-dark);
+}
+.local-card {
+  border-color: #dfeef4;
+  background: linear-gradient(135deg, #f8fcfe, #edf7fb);
+}
+.local-card > div,
+.local-card b {
+  color: #538da6;
+}
+.local-card p,
+.local-card > span {
+  color: #8ba1ae;
+}
+.workspace-badge > svg {
+  color: #9eb6c2;
+}
+.help-link:hover,
+.inspector-action:hover {
+  color: var(--company-blue-dark);
+}
+.app-version {
+  width: 100%;
+}
+.app-version:hover {
+  color: var(--company-blue-dark);
+}
+.board-kind-options > button.selected {
+  border-color: #7ec9e5;
+  background: #f3fbfe;
+  color: var(--company-blue-dark);
+}
+.shape-options button.selected {
+  color: var(--company-blue-dark);
+  border-color: #bbdfec;
+  background: #eaf7fc;
+}
+.secondary-button:hover {
+  border-color: #8bcbe2;
+  background: #f9fdff;
+}
+
+.statusbar {
+  min-height: 34px;
+  height: 34px;
+  flex-basis: 34px;
+}
+.company-credit {
+  color: #587487;
+  font-size: 10px;
+  white-space: nowrap;
+}
+.company-credit img {
+  width: 21px;
+  height: 21px;
+  object-fit: contain;
+  border-radius: 3px;
+}
+.company-credit-role {
+  color: #96a7b2;
+  margin-left: 2px;
+}
+.canvas-brandmark {
+  position: absolute;
+  bottom: 78px;
+  right: 27px;
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  padding: 10px 12px;
+  border: 1px solid #e3edf2;
+  border-radius: 8px;
+  background: #ffffffde;
+  pointer-events: none;
+}
+.canvas-brandmark img {
+  width: 31px;
+  height: 31px;
+  object-fit: contain;
+  border-radius: 4px;
+}
+.canvas-brandmark > div {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+.canvas-brandmark strong {
+  font-size: 10px;
+  font-weight: 550;
+  color: #708b9b;
+}
+.canvas-brandmark span {
+  font-size: 8px;
+  letter-spacing: 0.5px;
+  color: #a0b1bc;
+}
+.canvas-brandmark.with-inspector {
+  left: 26px;
+  right: auto;
+}
+.inspector {
+  max-height: calc(100% - 154px);
+  overflow-y: auto;
+}
+.modal-company-footer {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  border-top: 1px solid #e8f0f4;
+  padding-top: 17px;
+  margin-top: 23px;
+  font-size: 10px;
+  color: #8a9eac;
+}
+.modal-company-footer img {
+  width: 24px;
+  height: 24px;
+  object-fit: contain;
+  border-radius: 3px;
+}
+.about-content {
+  text-align: center;
+}
+.about-company-logo {
+  width: 82px;
+  height: 82px;
+  object-fit: contain;
+  margin: 8px 0 16px;
+}
+.about-content h2 {
+  color: var(--company-ink);
+  font-size: 28px;
+  letter-spacing: 2px;
+}
+.about-content h2 span {
+  display: block;
+  font-size: 10px;
+  letter-spacing: 3px;
+  color: var(--company-blue);
+  margin: 7px 0;
+}
+.about-version {
+  font-size: 11px;
+  color: #90a1af;
+  margin: 12px 0 23px;
+}
+.about-developer {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  gap: 8px;
+  padding: 21px 12px;
+  background: #f3f9fc;
+  border: 1px solid #e1eef4;
+  border-radius: 10px;
+}
+.about-developer > span {
+  font-size: 10px;
+  color: #8aa5b5;
+}
+.about-developer strong {
+  font-size: 15px;
+  color: #3b637b;
+  font-weight: 600;
+}
+.about-developer small {
+  font-size: 9px;
+  color: #8aa2b1;
+}
+.about-slogan {
+  font-size: 12px;
+  letter-spacing: 2px;
+  color: var(--company-blue-dark);
+  margin-top: 25px;
+}
+.about-description {
+  font-size: 11px;
+  color: #8a9ca9;
+  line-height: 1.9;
+}
+.modal-about .modal-company-footer {
+  justify-content: center;
+}
+
+@media (max-width: 1250px) {
+  .product-brand {
+    gap: 9px;
+  }
+  .company-logo {
+    width: 42px;
+    height: 42px;
+  }
+  .brand-company-name {
+    font-size: 10px;
+  }
+  .canvas-brandmark {
+    right: 18px;
+  }
+}
+@media (max-width: 1000px) {
+  .brand {
+    padding-left: 5px;
+    padding-right: 5px;
+  }
+  .brand strong span {
+    font-size: 9px;
+    margin-left: 5px;
+  }
+  .company-logo {
+    width: 37px;
+    height: 37px;
+  }
+  .canvas-brandmark {
+    right: 14px;
+    gap: 7px;
+    padding: 9px;
+  }
+  .canvas-brandmark img {
+    width: 25px;
+    height: 25px;
+  }
+  .canvas-brandmark strong {
+    font-size: 9px;
+  }
+}
+
+@media (max-height: 800px) {
+  .sidebar .local-card {
+    display: none;
+  }
+  .sidebar-bottom {
+    padding-top: 10px;
+  }
+  .sidebar .board-list {
+    min-height: 70px;
+    flex: 1 1 120px;
+    margin-bottom: 14px;
+  }
+  .brand {
+    padding-bottom: 17px;
+  }
+  .modal-help {
+    padding: 24px;
+  }
+  .modal-help .modal-icon {
+    width: 38px;
+    height: 38px;
+    margin-bottom: 12px;
+  }
+  .modal-help h2 {
+    font-size: 20px;
+    margin-bottom: 6px;
+  }
+  .modal-help .modal-intro {
+    margin-bottom: 12px;
+    font-size: 11px;
+    line-height: 1.7;
+  }
+  .modal-help .shortcut-list > div {
+    padding: 7px 0;
+  }
+  .modal-help .help-footnote {
+    margin-top: 14px;
+  }
+  .modal-help .modal-company-footer {
+    margin-top: 14px;
+    padding-top: 12px;
+  }
+}

@@ -1,9 +1,9 @@
 {
   "name": "zhitu-desktop",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "private": true,
   "description": "知图 — 离线流程图与思维导图个人桌面软件",
-  "author": "ZhiTu",
+  "author": "上海熙进电子科技有限公司",
   "license": "MIT",
   "type": "module",
   "main": "electron/main.cjs",
@@ -23,6 +23,7 @@
   "build": {
     "appId": "local.zhitu.desktop",
     "productName": "ZhiTu",
+    "copyright": "Copyright © 2026 上海熙进电子科技有限公司",
     "directories": {
       "output": "release"
     },
@@ -38,7 +39,9 @@
         "portable",
         "zip"
       ],
-      "signAndEditExecutable": false
+      "icon": "electron/assets/seekin.ico",
+      "signAndEditExecutable": true,
+      "signExecutable": false
     },
     "nsis": {
       "oneClick": false,

@@ -5,7 +5,11 @@ const { randomUUID } = require('node:crypto');
 
 const MAX_FILE_BYTES = 64 * 1024 * 1024;
 const DEFAULT_FILTERS = [{ name: '知图文档', extensions: ['zhitu', 'json'] }];
-const APP_TITLE = '知图 ZhiTu';
+// Keep the application identity stable so existing local canvases remain available.
+const APP_NAME = '知图 ZhiTu';
+const COMPANY_NAME = '上海熙进电子科技有限公司';
+const APP_TITLE = `知图 · ${COMPANY_NAME}`;
+const COMPANY_LOGO = path.join(__dirname, 'assets', 'seekin-logo.png');
 let mainWindow;
 
 function getDevServerUrl() {
@@ -166,9 +170,10 @@ function createMenu() {
           click: () =>
             dialog.showMessageBox(mainWindow, {
               type: 'info',
-              title: `关于${APP_TITLE}`,
-              message: APP_TITLE,
-              detail: `版本 ${app.getVersion()}\n用于个人创作的离线流程图与思维导图工具。\n文档保存在本机，无需账号。`,
+              title: '关于知图',
+              message: `知图 ZhiTu · ${app.getVersion()}`,
+              detail: `${COMPANY_NAME} 开发\n\n用于个人创作的离线流程图与思维导图工具。\n文档保存在本机，无需账号。`,
+              icon: COMPANY_LOGO,
               buttons: ['知道了'],
             }),
         },
@@ -186,6 +191,7 @@ function createWindow() {
     minWidth: 1024,
     minHeight: 700,
     title: APP_TITLE,
+    icon: COMPANY_LOGO,
     backgroundColor: '#f7f8fb',
     show: false,
     autoHideMenuBar: true,
@@ -200,6 +206,7 @@ function createWindow() {
   });
   // The editor stays local: document links cannot replace its trusted renderer.
   mainWindow.webContents.setWindowOpenHandler(() => ({ action: 'deny' }));
+  mainWindow.on('page-title-updated', (event) => event.preventDefault());
   mainWindow.webContents.on('will-navigate', (event) => event.preventDefault());
   mainWindow.webContents.on('will-attach-webview', (event) => event.preventDefault());
   mainWindow.webContents.session.setPermissionRequestHandler((_contents, _permission, callback) =>
@@ -215,7 +222,7 @@ function createWindow() {
   else mainWindow.loadFile(path.join(__dirname, '../dist/index.html'));
 }
 
-app.setName(APP_TITLE);
+app.setName(APP_NAME);
 app.whenReady().then(() => {
   if (process.platform === 'win32') app.setAppUserModelId('com.zhitu.desktop');
   registerFileHandlers();

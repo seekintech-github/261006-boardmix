@@ -38,6 +38,18 @@ jobs:
       - name: Build Windows installer
         run: npm run dist:win:installer -- --publish never
 
+      - name: Verify Windows company metadata
+        shell: pwsh
+        run: |
+          $package = Get-Content package.json -Raw | ConvertFrom-Json
+          $metadata = (Get-Item release/win-unpacked/ZhiTu.exe).VersionInfo
+          if ($metadata.CompanyName -ne $package.author) {
+            throw 'The Windows executable is missing the company metadata.'
+          }
+          if (($metadata.ProductVersion.Split('.')[0..2] -join '.') -ne $package.version) {
+            throw 'The Windows executable version does not match package.json.'
+          }
+
       - name: Upload Windows downloads
         uses: actions/upload-artifact@v4
         with:

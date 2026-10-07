@@ -1,19 +1,27 @@
 # 知图 ZhiTu
 
+**上海熙进电子科技有限公司 开发 · Seekin**
+
 用于个人创作的离线流程图与思维导图桌面软件，面向 **Windows 10 / 11 x64**。无需注册账号、无需订阅，文档保存在本机。
 
 知图参考常见白板软件的操作习惯，采用自主实现的界面和代码，与 Boardmix 没有隶属关系。它适合个人整理想法、梳理流程，不支持团队协作、云同步或 Boardmix 专有格式文件。
 
 ![知图思维导图界面](docs/screenshots/mindmap.png)
 
-[查看流程图界面](docs/screenshots/flowchart.png)
+[查看流程图界面](docs/screenshots/flowchart.png) · [查看公司介绍界面](docs/screenshots/about.png)
+
+## 公司品牌版 1.0.1
+
+软件主页、画布操作界面及“关于知图”均展示 Seekin 公司 Logo 与“上海熙进电子科技有限公司”字样，窗口标题也标明公司名称。Windows 应用图标使用公司标识，可执行文件属性写入公司名称和版权信息。
+
+本版保留原有应用标识与本地数据目录，更新后仍可读取同一 Windows 用户账户中的已有画布；更新前建议导出 `.zhitu` 文件备份。公司标识使用名片中的原 Logo，不附带名片上的个人联系方式。
 
 ## 使用
 
 构建完成后，`release/` 中会生成两种 Windows 免安装版本：
 
-- **`ZhiTu-1.0.0-Windows-Portable.exe`**：单文件免安装版，双击启动；首次启动会先解压运行文件，需稍等片刻。
-- **`ZhiTu-1.0.0-Windows-x64.zip`**：免安装版，先完整解压，再运行其中的 `ZhiTu.exe`，请保留解压目录中的其他文件。
+- **`ZhiTu-1.0.1-Windows-Portable.exe`**：单文件免安装版，双击启动；首次启动会先解压运行文件，需稍等片刻。
+- **`ZhiTu-1.0.1-Windows-x64.zip`**：免安装版，先完整解压，再运行其中的 `ZhiTu.exe`，请保留解压目录中的其他文件。
 
 如果当前目录没有安装包，可按下方步骤自行构建。当前没有代码签名，Windows 可能提示发布者未知，请确认文件来自本项目的构建产物。Windows 实机安装和运行仍需验证。
 
@@ -89,11 +97,11 @@ npm ci
 npm run dist:win
 ```
 
-产物输出到 `release/`。当前默认生成 x64 单文件免安装 EXE 和 ZIP，不启用代码签名。Linux 交叉构建跳过 Windows 可执行文件的资源编辑，免安装目标不依赖 Wine。
+产物输出到 `release/`。当前默认生成 x64 单文件免安装 EXE 和 ZIP。打包保留可执行文件资源编辑，将公司图标、名称、版权与版本写入 EXE；`win.signExecutable: false` 仅关闭代码签名，因此 Windows 安全提示仍可能显示发布者未知。当前 electron-builder 使用跨平台的资源编辑实现，Linux 交叉构建免安装目标无需 Wine。
 
-如果需要安装向导，在 Windows 上运行 `npm run dist:win:installer`，生成 `ZhiTu-1.0.0-Windows-Setup.exe`。从 Linux 交叉构建 NSIS 安装向导需要额外配置 Wine；默认免安装版无需它。
+如果需要安装向导，在 Windows 上运行 `npm run dist:win:installer`，生成 `ZhiTu-1.0.1-Windows-Setup.exe`。从 Linux 交叉构建 NSIS 安装向导可能需要额外配置 Wine；默认免安装版无需它。
 
-也可以在代码推送到 GitHub 后打开仓库的 **Actions → Build Windows → Run workflow**。该手动工作流会在 Windows runner 上安装依赖、检查构建、运行测试并打包。完成后，在该次运行的 **Artifacts** 中下载 `ZhiTu-Windows-x64`。工作流只上传构建产物，不自动发布 GitHub Release。
+也可以在代码推送到 GitHub 后打开仓库的 **Actions → Build Windows → Run workflow**。该手动工作流会在 Windows runner 上安装依赖、检查构建、运行测试、打包并核对 EXE 中的公司与版本信息。完成后，在该次运行的 **Artifacts** 中下载 `ZhiTu-Windows-x64`，下载文件保留 14 天。请使用新版代码对应的构建，旧构建的下载内容不会随代码更新。工作流只上传构建产物，不自动发布 GitHub Release。
 
 Linux 开发环境可用 `npm run dist:linux` 生成用于检查的未安装应用目录。Windows 是当前目标平台。
 
@@ -108,3 +116,5 @@ Linux 开发环境可用 `npm run dist:linux` 生成用于检查的未安装应�
 ## 许可
 
 项目代码采用 [MIT License](LICENSE)。第三方依赖遵循各自的许可证。
+
+Seekin Logo 与公司名称属于上海熙进电子科技有限公司的品牌标识，不在项目代码的 MIT 授权范围内。

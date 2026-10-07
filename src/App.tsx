@@ -38,7 +38,6 @@ import {
   Minus,
   MousePointer2,
   MoreHorizontal,
-  Network,
   PanelLeftClose,
   PanelLeftOpen,
   Pencil,
@@ -72,10 +71,17 @@ import {
 } from './model';
 import { downloadFile, exportPng, exportSvg } from './export';
 import { useWorkspace } from './useWorkspace';
+import {
+  APP_VERSION,
+  COMPANY_ENGLISH_NAME,
+  COMPANY_LOGO_URL,
+  COMPANY_NAME,
+  PRODUCT_NAME,
+} from './branding';
 
 const nodeTypes = { boardNode: BoardNode };
 const COLORS = ['#7864df', '#4b91de', '#45a891', '#dc9a46', '#db7296', '#788596'];
-type Modal = 'new' | 'help' | 'rename' | 'delete' | 'templates' | null;
+type Modal = 'new' | 'help' | 'rename' | 'delete' | 'templates' | 'about' | null;
 const kindNames: Record<NodeData['kind'], string> = {
   topic: '主题',
   process: '步骤',
@@ -483,15 +489,17 @@ export default function App() {
       {sidebar && (
         <aside className="sidebar">
           <div className="brand">
-            <div className="brand-mark">
-              <Network size={23} strokeWidth={2.5} />
+            <div className="product-brand">
+              <img className="company-logo" src={COMPANY_LOGO_URL} alt="Seekin 公司 Logo" />
+              <div>
+                <strong>
+                  {PRODUCT_NAME}
+                  <span>SEEKIN</span>
+                </strong>
+                <p>流程图 · 思维导图</p>
+              </div>
             </div>
-            <div>
-              <strong>
-                知图<span>zhitu</span>
-              </strong>
-              <p>把想法连起来</p>
-            </div>
+            <div className="brand-company-name">{COMPANY_NAME}</div>
           </div>
           <div className="workspace-badge">
             <div className="avatar">我</div>
@@ -578,9 +586,9 @@ export default function App() {
               <CircleHelp size={17} />
               使用帮助与快捷键<span>?</span>
             </button>
-            <div className="app-version">
-              知图个人版<span>v1.0.0</span>
-            </div>
+            <button className="app-version" aria-label="关于知图" onClick={() => setModal('about')}>
+              熙进 · 知图<span>v{APP_VERSION}</span>
+            </button>
           </div>
         </aside>
       )}
@@ -849,6 +857,18 @@ export default function App() {
             自由画布<span>·</span>
             {board.nodes.length} 个节点
           </div>
+          {!minimap && (
+            <div
+              className={`canvas-brandmark ${inspector && (selected || selectedEdge) ? 'with-inspector' : ''}`}
+              aria-label="软件开发公司"
+            >
+              <img src={COMPANY_LOGO_URL} alt="Seekin 公司 Logo" />
+              <div>
+                <strong>{COMPANY_NAME}</strong>
+                <span>SEEKIN · 探索创新，创造价值</span>
+              </div>
+            </div>
+          )}
           {board.nodes.length === 0 && (
             <div className="empty-canvas">
               <div>
@@ -1081,14 +1101,14 @@ export default function App() {
           </div>
         </div>
         <footer className="statusbar">
-          <span>
-            <i />
-            本地工作空间<span className="status-separator">/</span>
-            {board.kind === 'mindmap' ? '思维导图' : '流程图'}
+          <span className="company-credit">
+            <img src={COMPANY_LOGO_URL} alt="Seekin 公司 Logo" />
+            <span>{COMPANY_NAME}</span>
+            <span className="company-credit-role">开发</span>
           </span>
           <span>
             <ShieldCheck size={12} />
-            无需联网<span className="status-separator">·</span>专注于你的下一个好想法
+            本地工作空间<span className="status-separator">·</span>离线创作，想法随行
           </span>
         </footer>
       </main>
@@ -1137,7 +1157,9 @@ export default function App() {
                     ? '画布模板'
                     : modal === 'rename'
                       ? '重命名画布'
-                      : '删除画布'
+                      : modal === 'about'
+                        ? '关于知图'
+                        : '删除画布'
             }
           >
             <IconButton label="关闭对话框" className="modal-close" onClick={() => setModal(null)}>
@@ -1325,6 +1347,31 @@ export default function App() {
                 </p>
               </>
             )}
+            {modal === 'about' && (
+              <div className="about-content">
+                <img className="about-company-logo" src={COMPANY_LOGO_URL} alt="Seekin 公司 Logo" />
+                <h2>
+                  {PRODUCT_NAME}
+                  <span>SEEKIN</span>
+                </h2>
+                <p className="about-version">流程图与思维导图 · v{APP_VERSION}</p>
+                <div className="about-developer">
+                  <span>设计与开发</span>
+                  <strong>{COMPANY_NAME}</strong>
+                  <small>{COMPANY_ENGLISH_NAME}</small>
+                </div>
+                <p className="about-slogan">探索创新，创造价值</p>
+                <p className="about-description">
+                  用清晰的图形连接想法，让每一步思考有迹可循。
+                  <br />
+                  画布保存在本机，无需账号，也无需订阅。
+                </p>
+              </div>
+            )}
+            <div className="modal-company-footer">
+              <img src={COMPANY_LOGO_URL} alt="Seekin 公司 Logo" />
+              <span>由 {COMPANY_NAME} 开发</span>
+            </div>
           </section>
         </div>
       )}

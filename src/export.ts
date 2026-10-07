@@ -1,4 +1,5 @@
 import type { Board, BoardNode } from './model';
+import { COMPANY_LOGO_DATA_URL, COMPANY_NAME, PRODUCT_NAME } from './branding';
 
 type Point = { x: number; y: number };
 type Side = 'left' | 'right' | 'top' | 'bottom';
@@ -313,9 +314,11 @@ export function exportSvg(board: Board): string {
     minY + 180,
   );
   const width = Math.ceil(Math.max(640, maxX - minX + 112));
-  const height = Math.ceil(maxY - minY + 184);
+  // Reserve a separate footer band so company attribution never covers the diagram.
+  const height = Math.ceil(maxY - minY + 214);
   const title = escapeXml(board.name || '未命名画板');
-  return `<?xml version="1.0" encoding="UTF-8"?>\n<svg xmlns="http://www.w3.org/2000/svg" width="${width}" height="${height}" viewBox="0 0 ${width} ${height}" role="img" aria-labelledby="board-title"><title id="board-title">${title}</title><defs>${arrows.join('')}</defs><rect width="${width}" height="${height}" fill="#f8f9fc"/><g font-family="${escapeXml(FONT)}">${textSvg(board.name || '未命名画板', 56, 41, width - 112, 32, { fontSize: 21, weight: 700, fill: '#292d42', align: 'start' })}<text x="56" y="71" fill="#9297a9" font-size="11">${board.kind === 'mindmap' ? '思维导图' : '流程图'}</text><g transform="translate(${56 - minX} ${104 - minY})">${edgePaths.join('')}${nodes.map(renderNode).join('')}</g><line x1="56" y1="${height - 43}" x2="${width - 56}" y2="${height - 43}" stroke="#e7e9f1"/><text x="56" y="${height - 22}" fill="#989cae" font-size="10">知图 · 让想法清晰可见</text></g></svg>`;
+  const footer = `<g aria-label="${escapeXml(COMPANY_NAME)}"><line x1="56" y1="${height - 82}" x2="${width - 56}" y2="${height - 82}" stroke="#e7e9f1"/><image href="${escapeXml(COMPANY_LOGO_DATA_URL)}" x="56" y="${height - 65}" width="40" height="40" preserveAspectRatio="xMidYMid meet"/><text x="112" y="${height - 52}" fill="#5e6277" font-size="12" font-weight="600">${escapeXml(PRODUCT_NAME)} · 让想法清晰可见</text><text x="112" y="${height - 30}" fill="#74798c" font-size="11">${escapeXml(`由 ${COMPANY_NAME} 开发`)}</text></g>`;
+  return `<?xml version="1.0" encoding="UTF-8"?>\n<svg xmlns="http://www.w3.org/2000/svg" width="${width}" height="${height}" viewBox="0 0 ${width} ${height}" role="img" aria-labelledby="board-title"><title id="board-title">${title}</title><defs>${arrows.join('')}</defs><rect width="${width}" height="${height}" fill="#f8f9fc"/><g font-family="${escapeXml(FONT)}">${textSvg(board.name || '未命名画板', 56, 41, width - 112, 32, { fontSize: 21, weight: 700, fill: '#292d42', align: 'start' })}<text x="56" y="71" fill="#9297a9" font-size="11">${board.kind === 'mindmap' ? '思维导图' : '流程图'}</text><g transform="translate(${56 - minX} ${104 - minY})">${edgePaths.join('')}${nodes.map(renderNode).join('')}</g>${footer}</g></svg>`;
 }
 
 /** Rasterize the same local SVG, retaining the diagram's aspect ratio. */
