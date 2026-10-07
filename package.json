@@ -1,0 +1,76 @@
+{
+  "name": "zhitu-desktop",
+  "version": "1.0.0",
+  "private": true,
+  "description": "知图 — 离线流程图与思维导图个人桌面软件",
+  "author": "ZhiTu",
+  "license": "MIT",
+  "type": "module",
+  "main": "electron/main.cjs",
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc --noEmit && vite build",
+    "preview": "vite preview --host 0.0.0.0",
+    "desktop": "npm run build && electron .",
+    "test": "vitest run",
+    "test:e2e": "playwright test",
+    "dist:win": "npm run build && electron-builder --win portable zip --x64",
+    "dist:linux": "npm run build && electron-builder --linux dir",
+    "dist:win:installer": "npm run build && electron-builder --win nsis --x64",
+    "format": "prettier --write .",
+    "test:desktop": "node tests/electron-smoke.cjs"
+  },
+  "build": {
+    "appId": "local.zhitu.desktop",
+    "productName": "ZhiTu",
+    "directories": {
+      "output": "release"
+    },
+    "files": [
+      "dist/**/*",
+      "electron/**/*",
+      "package.json"
+    ],
+    "asar": true,
+    "forceCodeSigning": false,
+    "win": {
+      "target": [
+        "portable",
+        "zip"
+      ],
+      "signAndEditExecutable": false
+    },
+    "nsis": {
+      "oneClick": false,
+      "perMachine": false,
+      "allowToChangeInstallationDirectory": true,
+      "createDesktopShortcut": true,
+      "createStartMenuShortcut": true,
+      "shortcutName": "知图",
+      "artifactName": "ZhiTu-${version}-Windows-Setup.${ext}"
+    },
+    "artifactName": "ZhiTu-${version}-Windows-${arch}.${ext}",
+    "portable": {
+      "artifactName": "ZhiTu-${version}-Windows-Portable.${ext}",
+      "requestExecutionLevel": "user"
+    }
+  },
+  "dependencies": {
+    "@xyflow/react": "12.12.0",
+    "lucide-react": "1.52.0",
+    "react": "19.3.0",
+    "react-dom": "19.3.0"
+  },
+  "devDependencies": {
+    "@playwright/test": "1.63.0",
+    "@types/react": "19.3.0",
+    "@types/react-dom": "19.3.0",
+    "@vitejs/plugin-react": "6.1.2",
+    "electron": "44.5.1",
+    "electron-builder": "26.15.3",
+    "prettier": "3.9.9",
+    "typescript": "7.0.2",
+    "vite": "8.3.3",
+    "vitest": "5.0.3"
+  }
+}
